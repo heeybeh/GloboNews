@@ -1,10 +1,12 @@
 package com.example.beatrice.globonews;
-import java.util.ArrayList;
 import java.util.Objects;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,16 +18,11 @@ import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 
 
-public class LinearLayoutFragment extends Fragment {
+public class MainFragment extends Fragment {
     private static View view;
     private static RecyclerView listRecyclerView;
-    private static ArrayList<DataModel> listArrayList;
-    private static ListViewRecyclerAdapter adapter;
+    private static NewsRecyclerAdapter adapter;
 
-    private static final int[] images = { R.drawable.iconecertificado,
-            R.drawable.configura, R.drawable.certificado, R.drawable.changepin,
-            R.drawable.conficon, R.drawable.iconealerta, R.drawable.iconeassinatura,
-            R.drawable.iconebiometrico, R.drawable.iconecadeado };
 
     String[] getTitle, getLocation, getYear;
     private static RelativeLayout bottomLayout;
@@ -34,7 +31,7 @@ public class LinearLayoutFragment extends Fragment {
     private boolean userScrolled = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
 
-    public LinearLayoutFragment() {
+    public MainFragment() {
 
     }
 
@@ -71,18 +68,49 @@ public class LinearLayoutFragment extends Fragment {
 
     private void populatRecyclerView() {
 
-        listArrayList = new ArrayList<>();
+        ServicesViewModel viewModel = ViewModelProviders.of(this).get(ServicesViewModel.class);
 
-        for (int i = 0; i < getTitle.length; i++) {
+        viewModel.startServices(getContext()).observe(this, new Observer<ServiceResult>() {
 
-            listArrayList.add(new DataModel(getTitle[i], getLocation[i], getYear[i], images[i]));
-        }
+            @Override
+            public void onChanged(@Nullable ServiceResult result) {
 
-        adapter = new ListViewRecyclerAdapter(getActivity(), listArrayList);
+                if (result != null) {
 
-        listRecyclerView.setAdapter(adapter);
+                    adapter = new NewsRecyclerAdapter(getActivity(), result.getList());
 
-        adapter.notifyDataSetChanged();
+                    listRecyclerView.setAdapter(adapter);
+
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+        });
+
+//        listArrayList = new ArrayList<>();
+//
+//        for (int i = 0; i < getTitle.length; i++) {
+//
+//            listArrayList.add(new DataModel(getTitle[i], getLocation[i], getYear[i], images[i]));
+//        }
+//
+//        adapter = new ListViewRecyclerAdapter(getActivity(), listArrayList);
+//
+//        listRecyclerView.setAdapter(adapter);
+//
+//        adapter.notifyDataSetChanged();
+
+
+//        ListViewRecyclerAdapter adapter = new ListViewRecyclerAdapter(context, data);
+//
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+//
+//        listRecyclerView.setLayoutManager(layoutManager);
+//
+//        listRecyclerView.setAdapter(adapter);
+//
+//        adapter.notifyDataSetChanged();
+
 
     }
 
@@ -120,9 +148,7 @@ public class LinearLayoutFragment extends Fragment {
 
                     updateRecyclerView();
                 }
-
             }
-
         });
     }
 
@@ -135,13 +161,24 @@ public class LinearLayoutFragment extends Fragment {
             @Override
             public void run() {
 
-                for (int i = 0; i < 3; i++) {
+                ServicesViewModel viewModel = ViewModelProviders.of(MainFragment.this).get(ServicesViewModel.class);
 
-                    int value = new RandomNumberGenerator().RandomGenerator();
+                viewModel.startServices(getContext()).observe(MainFragment.this, new Observer<ServiceResult>() {
 
-                    listArrayList.add(new DataModel(getTitle[value], getLocation[value], getYear[value], images[value]));
-                }
-                adapter.notifyDataSetChanged();
+                    @Override
+                    public void onChanged(@Nullable ServiceResult result) {
+
+                        if (result != null) {
+
+                            adapter = new NewsRecyclerAdapter(getActivity(), result.getList());
+
+                            listRecyclerView.setAdapter(adapter);
+
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    }
+                });
 
                 Toast.makeText(getActivity(), "Items Updated.", Toast.LENGTH_SHORT).show();
 

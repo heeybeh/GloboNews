@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements TabListener {
             // Getting fragments according to selected position
             Fragment fragment = null;
             if (i == 0) {
-                fragment = new LinearLayoutFragment();
+                fragment = new MainFragment();
             }
 
             // and finally returning fragments

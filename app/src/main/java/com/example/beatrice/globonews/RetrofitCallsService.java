@@ -1,14 +1,14 @@
+
 package com.example.beatrice.globonews;
 
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,22 +19,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitCallsService implements CallsInterface {
 
+    private static int page = 1;
+
     private final String URL = "http://falkor-cda.bastian.globo.com/feeds/b904b430-123a-4f93-8cf4-5365adf97892/posts/page/";
 
-    private static RetrofitCallsService instance;
+    private static com.example.beatrice.globonews.RetrofitCallsService instance;
 
-
-    public static RetrofitCallsService getInstance() {
+    public static com.example.beatrice.globonews.RetrofitCallsService getInstance() {
 
         if (instance == null) {
 
-            instance = new RetrofitCallsService();
+            instance = new com.example.beatrice.globonews.RetrofitCallsService();
 
         }
 
         return instance;
     }
-    private Retrofit initRequest(String page) {
+    private Retrofit initRequest() {
 
         return new Retrofit.Builder()
                 .baseUrl(URL + page + "/")
@@ -42,14 +43,15 @@ public class RetrofitCallsService implements CallsInterface {
                 .build();
 
     }
-
-
     @Override
-    public void getNewsCall(final Context context) {
+    public MutableLiveData<ServiceResult> getNewsCall(final Context context) {
+
+        final MutableLiveData<ServiceResult> mutableDataServiceResult =
+                new MutableLiveData<>();
 
         try {
 
-            NewsEndpointInterface service = initRequest("1").create(NewsEndpointInterface.class);
+            NewsEndpointInterface service = initRequest().create(NewsEndpointInterface.class);
 
             Call<EditorialModel> call = service.getEditorial();
 
@@ -57,15 +59,24 @@ public class RetrofitCallsService implements CallsInterface {
                 @Override
                 public void onResponse(Call<EditorialModel> call, @NonNull Response<EditorialModel> response) {
 
-                    EditorialModel editorialModel = new EditorialModel();
-
+                    EditorialModel editorialModel;
 
                     if (response.isSuccessful()) {
 
                         editorialModel = response.body();
 
-                    } else {
+                        if (editorialModel != null) {
 
+                            page = Integer.parseInt(editorialModel.getNextPage());
+
+                            ArrayList<ItemsModel> data = new ArrayList<>(editorialModel.getItems());
+
+                            ServiceResult serviceResult = new ServiceResult(data);
+
+                            mutableDataServiceResult.setValue(serviceResult);
+
+
+                        }
                     }
 
 
@@ -85,6 +96,8 @@ public class RetrofitCallsService implements CallsInterface {
             e.printStackTrace();
 
         }
+
+        return mutableDataServiceResult;
 
     }
 

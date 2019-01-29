@@ -2,10 +2,8 @@ package com.example.beatrice.globonews;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 
 public class ItemsModel {
-
 
     @SerializedName("id")
     String id;
@@ -13,8 +11,6 @@ public class ItemsModel {
     String feedId;
     @SerializedName("type")
     String type;
-//    @SerializedName("aggregatedPosts")
-//    String[] aggregatedPosts;
     @SerializedName("lastPublication")
     String lastPublication;
     @SerializedName("publication")
@@ -23,8 +19,6 @@ public class ItemsModel {
     ContentModel content;
     @SerializedName("isPinned")
     String isPinned;
-//    @SerializedName("pinned")
-//    String pinned;
     @SerializedName("draft")
     String draft;
     @SerializedName("postHash")
@@ -80,7 +74,13 @@ public class ItemsModel {
         this.publication = publication;
     }
 
+    public ContentModel getContent() {
+        return content;
+    }
 
+    public void setContent(ContentModel content) {
+        this.content = content;
+    }
 
     public String getIsPinned() {
         return isPinned;
@@ -89,7 +89,6 @@ public class ItemsModel {
     public void setIsPinned(String isPinned) {
         this.isPinned = isPinned;
     }
-
 
     public String getDraft() {
         return draft;

@@ -19,7 +19,6 @@ public class ListViewHolder extends RecyclerView.ViewHolder implements
     public ListViewHolder(View view) {
         super(view);
 
-        // Find all views ids
         this.list_title =  view.findViewById(R.id.list_title);
         this.list_location = view.findViewById(R.id.list_location);
         this.list_date = view
