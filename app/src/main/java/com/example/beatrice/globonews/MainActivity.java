@@ -12,23 +12,22 @@ import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements TabListener {
-    private static ViewPager viewPager;//View Pager for setting tabs
+    private static ViewPager viewPager;
     private static ActionBar actionBar;
-    private static FragmentManager fragmentManager;//fragment manager to work on fragments
+    private static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RetrofitCallsService.getInstance().getNewsCall(this);
         init();
-        setTabs();
     }
 
     private void init() {
-        viewPager =  findViewById(R.id.pager);
-        fragmentManager = getSupportFragmentManager();
 
+        viewPager =  findViewById(R.id.pager);
+
+        fragmentManager = getSupportFragmentManager();
 
         viewPager.setAdapter(new MyAdapter(fragmentManager));
 
@@ -53,23 +52,23 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 
     }
 
-    private void setTabs() {
-        // Getting actionbar
-        actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        }
-
-        android.support.v7.app.ActionBar.Tab tab1 = actionBar.newTab();
-        tab1.setText("RecyclerView");
-        tab1.setTabListener(this);
-
-
-        actionBar.addTab(tab1);
-
-    }
+//    private void setTabs() {
+//        // Getting actionbar
+//        actionBar = getSupportActionBar();
+//
+//        if (actionBar != null) {
+//
+//            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//        }
+//
+//        android.support.v7.app.ActionBar.Tab tab1 = actionBar.newTab();
+//        tab1.setText("RecyclerView");
+//        tab1.setTabListener(this);
+//
+//
+//        actionBar.addTab(tab1);
+//
+//    }
 
     @Override
     public void onTabReselected(Tab arg0, FragmentTransaction arg1) {

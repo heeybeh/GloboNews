@@ -1,4 +1,5 @@
 package com.example.beatrice.globonews;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import android.arch.lifecycle.Observer;
@@ -50,12 +51,6 @@ public class MainFragment extends Fragment {
 
         bottomLayout = view.findViewById(R.id.loadItemsLayout_recyclerView);
 
-        getTitle = Objects.requireNonNull(getActivity()).getResources().getStringArray(R.array.title);
-
-        getLocation = getActivity().getResources().getStringArray(R.array.location);
-
-        getYear = getActivity().getResources().getStringArray(R.array.constructed_year);
-
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         listRecyclerView = view.findViewById(R.id.linear_recyclerview);
@@ -77,7 +72,16 @@ public class MainFragment extends Fragment {
 
                 if (result != null) {
 
-                    adapter = new NewsRecyclerAdapter(getActivity(), result.getList());
+                    ArrayList<ItemsModel> listArrayList = new ArrayList();
+
+                    for (int i = 0; i < result.getList().size(); i++) {
+
+                        if (result.getList().get(i).getType().equals("basico"))
+
+                        listArrayList.add(result.getList().get(i));
+                    }
+
+                    adapter = new NewsRecyclerAdapter(getActivity(), listArrayList);
 
                     listRecyclerView.setAdapter(adapter);
 
@@ -86,31 +90,6 @@ public class MainFragment extends Fragment {
                 }
             }
         });
-
-//        listArrayList = new ArrayList<>();
-//
-//        for (int i = 0; i < getTitle.length; i++) {
-//
-//            listArrayList.add(new DataModel(getTitle[i], getLocation[i], getYear[i], images[i]));
-//        }
-//
-//        adapter = new ListViewRecyclerAdapter(getActivity(), listArrayList);
-//
-//        listRecyclerView.setAdapter(adapter);
-//
-//        adapter.notifyDataSetChanged();
-
-
-//        ListViewRecyclerAdapter adapter = new ListViewRecyclerAdapter(context, data);
-//
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-//
-//        listRecyclerView.setLayoutManager(layoutManager);
-//
-//        listRecyclerView.setAdapter(adapter);
-//
-//        adapter.notifyDataSetChanged();
-
 
     }
 
@@ -125,6 +104,7 @@ public class MainFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (newState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+
                     userScrolled = true;
 
                 }
@@ -161,26 +141,7 @@ public class MainFragment extends Fragment {
             @Override
             public void run() {
 
-                ServicesViewModel viewModel = ViewModelProviders.of(MainFragment.this).get(ServicesViewModel.class);
-
-                viewModel.startServices(getContext()).observe(MainFragment.this, new Observer<ServiceResult>() {
-
-                    @Override
-                    public void onChanged(@Nullable ServiceResult result) {
-
-                        if (result != null) {
-
-                            adapter = new NewsRecyclerAdapter(getActivity(), result.getList());
-
-                            listRecyclerView.setAdapter(adapter);
-
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    }
-                });
-
-                Toast.makeText(getActivity(), "Items Updated.", Toast.LENGTH_SHORT).show();
+                populatRecyclerView();
 
                 bottomLayout.setVisibility(View.GONE);
 

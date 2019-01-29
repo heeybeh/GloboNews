@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Progress Layout contains Progress Bar and a TextView -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#AA000000"
     android:gravity="center"
@@ -16,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/more_progress"
+        android:layout_toEndOf="@+id/more_progress"
         android:padding="5dp"
         android:text="@string/loadmore"
         android:textColor="#ffffff"

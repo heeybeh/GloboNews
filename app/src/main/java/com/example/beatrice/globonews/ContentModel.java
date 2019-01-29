@@ -9,6 +9,9 @@ public class ContentModel {
     @SerializedName("chapeu")
     ChapeuModel chapeu;
 
+    @SerializedName("image")
+    ImageModel image;
+
     @SerializedName("section")
     String section;
 
@@ -27,6 +30,14 @@ public class ContentModel {
 
     public void setChapeu(ChapeuModel chapeu) {
         this.chapeu = chapeu;
+    }
+
+    public ImageModel getImage() {
+        return image;
+    }
+
+    public void setImage(ImageModel image) {
+        this.image = image;
     }
 
     public String getSection() {
