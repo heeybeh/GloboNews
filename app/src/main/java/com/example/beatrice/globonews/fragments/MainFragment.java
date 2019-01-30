@@ -5,6 +5,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Toast;
 
 import com.example.beatrice.globonews.adapters.NewsRecyclerAdapter;
 import com.example.beatrice.globonews.R;
@@ -39,6 +43,7 @@ public class MainFragment extends Fragment {
     private boolean userScrolled = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     ArrayList<ItemsModel> listArrayList = new ArrayList();
+
     public MainFragment() {
 
     }
@@ -49,16 +54,49 @@ public class MainFragment extends Fragment {
 
     }
 
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.linearlayout_fragment, container, false);
         init();
-        populatRecyclerView();
+
+        if (isConnected(getContext())){
+
+            populatRecyclerView();
+
+        } else {
+
+            Toast.makeText(getContext(), "Esperando conexão", Toast.LENGTH_LONG).show();
+
+            verifyConnection();
+
+        }
         implementScrollListener();
+
         return view;
+    }
+
+    private void verifyConnection() {
+
+        Thread t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isConnected(getActivity())) {
+
+                        Thread.sleep(1000);
+                    }
+
+                    populatRecyclerView();
+
+                } catch (Exception e) {
+
+                    Toast.makeText(getContext(), "Verifique a conexão", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        t.start();
     }
 
     private void init() {
@@ -151,5 +189,18 @@ public class MainFragment extends Fragment {
             bottomLayout.setVisibility(View.GONE);
 
         }, 5000);
+    }
+
+
+    public static boolean isConnected(Context context) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+
+        return networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED;
     }
 }
