@@ -1,4 +1,4 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.fragments;
 
 
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.example.beatrice.globonews.R;
 
 import java.util.Objects;
 
@@ -51,7 +53,7 @@ public class NewsWebViewFragment extends Fragment {
 
     private void configure(View view) {
 
-        Toolbar toolbar = view.findViewById(R.id.about_toolbar);
+        Toolbar toolbar = view.findViewById(R.id.new_toolbar);
 
         toolbar.setTitle(R.string.app_name);
 

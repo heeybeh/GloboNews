@@ -1,11 +1,9 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -13,17 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.beatrice.globonews.R;
+import com.example.beatrice.globonews.adapters.ListViewHolder;
+import com.example.beatrice.globonews.fragments.NewsWebViewFragment;
+import com.example.beatrice.globonews.models.ItemsModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
@@ -49,7 +46,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
         long timeSecs = (seconds % 3600) / 60 ;
         String timeText;
 
-        holder.list_chapeu.setText(arrayList.get(position).getContent().getChapeu().label);
+        holder.list_chapeu.setText(arrayList.get(position).getContent().getChapeu().getLabel());
 
         holder.list_title.setText(arrayList.get(position).getContent().getTitle());
 

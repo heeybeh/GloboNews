@@ -1,8 +1,9 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.fragments;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,38 +12,56 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
+
+import com.example.beatrice.globonews.adapters.NewsRecyclerAdapter;
+import com.example.beatrice.globonews.R;
+import com.example.beatrice.globonews.services.ServiceResult;
+import com.example.beatrice.globonews.viewModels.ServicesViewModel;
+import com.example.beatrice.globonews.models.ItemsModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 public class MainFragment extends Fragment {
 
     private  View view;
     private  RecyclerView listRecyclerView;
-    private  NewsRecyclerAdapter adapter;
-
+    private NewsRecyclerAdapter adapter;
     private static RelativeLayout bottomLayout;
     private static LinearLayoutManager mLayoutManager;
-
     private boolean userScrolled = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
-
+    ArrayList<ItemsModel> listArrayList = new ArrayList();
     public MainFragment() {
 
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.linearlayout_fragment, container,
-                false);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        view = inflater.inflate(R.layout.linearlayout_fragment, container, false);
         init();
         populatRecyclerView();
         implementScrollListener();
+
+        Toolbar toolbar = view.findViewById(R.id.main_toolbar);
+
+        toolbar.setTitle(R.string.app_name);
         return view;
     }
 
@@ -67,8 +86,6 @@ public class MainFragment extends Fragment {
         viewModel.startServices(getContext()).observe(this, result -> {
 
             if (result != null) {
-
-                ArrayList<ItemsModel> listArrayList = new ArrayList();
 
                 for (int i = 0; i < result.getList().size(); i++) {
 

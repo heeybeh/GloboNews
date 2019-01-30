@@ -1,18 +1,20 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.adapters;
 
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.beatrice.globonews.R;
 
 public class ListViewHolder extends RecyclerView.ViewHolder implements
         View.OnClickListener {
 
     public TextView list_title, list_chapeu, list_date;
     public ImageView list_image_View;
-    public RelativeLayout listLayout;
+    public CardView listLayout;
 
     private RecyclerViewOnClickListener.OnClickListener onClickListener;
 

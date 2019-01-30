@@ -1,12 +1,16 @@
 
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.services;
 
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
+import com.example.beatrice.globonews.interfaces.CallsInterface;
+import com.example.beatrice.globonews.interfaces.NewsEndpointInterface;
+import com.example.beatrice.globonews.models.EditorialModel;
+import com.example.beatrice.globonews.models.ItemsModel;
 
 import java.util.ArrayList;
 
@@ -23,13 +27,13 @@ public class RetrofitCallsService implements CallsInterface {
 
     private final String URL = "http://falkor-cda.bastian.globo.com/feeds/b904b430-123a-4f93-8cf4-5365adf97892/posts/page/";
 
-    private static com.example.beatrice.globonews.RetrofitCallsService instance;
+    private static RetrofitCallsService instance;
 
-    public static com.example.beatrice.globonews.RetrofitCallsService getInstance() {
+    public static RetrofitCallsService getInstance() {
 
         if (instance == null) {
 
-            instance = new com.example.beatrice.globonews.RetrofitCallsService();
+            instance = new RetrofitCallsService();
 
         }
 

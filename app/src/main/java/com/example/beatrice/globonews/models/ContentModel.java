@@ -1,8 +1,6 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.models;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 
 public class ContentModel {
 

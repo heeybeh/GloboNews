@@ -1,4 +1,4 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.adapters;
 
 import android.view.View;
 

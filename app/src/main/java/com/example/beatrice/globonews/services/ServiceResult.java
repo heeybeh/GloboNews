@@ -1,5 +1,7 @@
-package com.example.beatrice.globonews;
+package com.example.beatrice.globonews.services;
 
+
+import com.example.beatrice.globonews.models.ItemsModel;
 
 import java.util.ArrayList;
 
