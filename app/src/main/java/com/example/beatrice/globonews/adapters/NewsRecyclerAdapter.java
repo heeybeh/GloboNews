@@ -1,6 +1,7 @@
 package com.example.beatrice.globonews.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -97,9 +98,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
             switch (view.getId()) {
                 case R.id.list_layout:
 
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", arrayList.get(position).getContent().getUrl());
+                    NewsWebViewFragment frag = new NewsWebViewFragment();
+                    frag.setArguments(bundle);
                     FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
                     FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.fragment_content, new NewsWebViewFragment());
+                    transaction.replace(R.id.fragment_content, frag);
                     transaction.addToBackStack(null);
                     transaction.commit();
                     break;

@@ -48,7 +48,15 @@ public class NewsWebViewFragment extends Fragment {
                 progressBar.hide();
             }
         });
-        webView.loadUrl("http://google.com");
+
+        if (getArguments() != null) {
+            webView.loadUrl(getArguments().getString("url"));
+
+        } else {
+
+            webView.loadUrl("http://globo.com");
+        }
+
     }
 
     private void configure(View view) {
