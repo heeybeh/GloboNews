@@ -2,10 +2,18 @@ package com.example.beatrice.globonews;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -91,16 +99,18 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
         holder.list_date.setText(timeText);
 
-        holder.setClickListener(new RecyclerViewOnClickListener.OnClickListener() {
+        holder.setClickListener((view, position1) -> {
+            switch (view.getId()) {
+                case R.id.list_layout:
 
-            @Override
-            public void OnItemClick(View view, int position) {
-                switch (view.getId()) {
-                    case R.id.list_layout:
+                    FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+                    FragmentTransaction transaction = fm.beginTransaction();
+                    transaction.replace(R.id.fragment_content, new NewsWebViewFragment());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
-                        Toast.makeText(context, "You have clicked " + arrayList.get(position).getContent().getTitle(), Toast.LENGTH_LONG).show();
-                        break;
-                }
+                    Toast.makeText(context, "You have clicked " + arrayList.get(position1).getContent().getTitle(), Toast.LENGTH_LONG).show();
+                    break;
             }
         });
     }
@@ -114,4 +124,11 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
         return new ListViewHolder(mainGroup);
     }
+
+
+    private static ViewPager viewPager;
+    private static ActionBar actionBar;
+    private static FragmentManager fragmentManager;
+
+
 }

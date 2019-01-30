@@ -20,12 +20,11 @@ import android.widget.AbsListView.OnScrollListener;
 
 
 public class MainFragment extends Fragment {
-    private static View view;
-    private static RecyclerView listRecyclerView;
-    private static NewsRecyclerAdapter adapter;
 
+    private  View view;
+    private  RecyclerView listRecyclerView;
+    private  NewsRecyclerAdapter adapter;
 
-    String[] getTitle, getLocation, getYear;
     private static RelativeLayout bottomLayout;
     private static LinearLayoutManager mLayoutManager;
 
@@ -65,29 +64,25 @@ public class MainFragment extends Fragment {
 
         ServicesViewModel viewModel = ViewModelProviders.of(this).get(ServicesViewModel.class);
 
-        viewModel.startServices(getContext()).observe(this, new Observer<ServiceResult>() {
+        viewModel.startServices(getContext()).observe(this, result -> {
 
-            @Override
-            public void onChanged(@Nullable ServiceResult result) {
+            if (result != null) {
 
-                if (result != null) {
+                ArrayList<ItemsModel> listArrayList = new ArrayList();
 
-                    ArrayList<ItemsModel> listArrayList = new ArrayList();
+                for (int i = 0; i < result.getList().size(); i++) {
 
-                    for (int i = 0; i < result.getList().size(); i++) {
+                    if (result.getList().get(i).getType().equals("basico"))
 
-                        if (result.getList().get(i).getType().equals("basico"))
-
-                        listArrayList.add(result.getList().get(i));
-                    }
-
-                    adapter = new NewsRecyclerAdapter(getActivity(), listArrayList);
-
-                    listRecyclerView.setAdapter(adapter);
-
-                    adapter.notifyDataSetChanged();
-
+                    listArrayList.add(result.getList().get(i));
                 }
+
+                adapter = new NewsRecyclerAdapter(getActivity(), listArrayList);
+
+                listRecyclerView.setAdapter(adapter);
+
+                adapter.notifyDataSetChanged();
+
             }
         });
 
@@ -136,16 +131,12 @@ public class MainFragment extends Fragment {
 
         bottomLayout.setVisibility(View.VISIBLE);
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(() -> {
 
-            @Override
-            public void run() {
+            populatRecyclerView();
 
-                populatRecyclerView();
+            bottomLayout.setVisibility(View.GONE);
 
-                bottomLayout.setVisibility(View.GONE);
-
-            }
         }, 5000);
     }
 }

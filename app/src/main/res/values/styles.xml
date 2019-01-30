@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--<item name="android:textColorPrimary">@color/secondaryColor</item>-->
+        <item name="colorControlNormal">#000000</item>
+        <item name="android:textColorPrimaryInverse">#FFFFFF</item>
+    </style>
+
 </resources>
