@@ -8,5 +8,6 @@
     <string name="imageview">ImageView</string>
     <string name="delete_image">Delete ImageView</string>
     <string name="loadmore">Loading more items please wait&#8230;</string>
+    <string name="news">Confira as notícias do mundo</string>
 
 </resources>

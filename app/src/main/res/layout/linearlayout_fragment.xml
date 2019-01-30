@@ -3,20 +3,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#fff" >
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppBarOverlay" >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@android:color/black"
-            android:background="#dfdfdf"
-            app:popupTheme="@style/AppTheme" />
+            android:layout_height="50dp"
+            android:background="#dfdfdf" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/news"
+                android:textColor="#3d4654"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/main_edit_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/iconnews"
+                android:gravity="center" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

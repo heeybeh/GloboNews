@@ -58,10 +58,6 @@ public class MainFragment extends Fragment {
         init();
         populatRecyclerView();
         implementScrollListener();
-
-        Toolbar toolbar = view.findViewById(R.id.main_toolbar);
-
-        toolbar.setTitle(R.string.app_name);
         return view;
     }
 
